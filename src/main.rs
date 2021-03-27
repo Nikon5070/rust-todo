@@ -1,6 +1,6 @@
 use std::collections::HashMap;
-use std::str::FromStr;
 use std::io::Read;
+use std::str::FromStr;
 
 struct Todo {
     map: HashMap<String, bool>,
@@ -38,6 +38,13 @@ impl Todo {
         }
         std::fs::write("db.txt", content)
     }
+
+    fn complete(&mut self, key: &String) -> Option<()> {
+        match self.map.get_mut(key) {
+            Some(v) => Some(*v = false),
+            None => None,
+        }
+    }
 }
 fn main() {
     let action = std::env::args().nth(1).expect("Please specify an action");
@@ -45,12 +52,20 @@ fn main() {
     println!("{:?}, {:?}", action, item);
 
     let mut todo = Todo::new().expect("Initialisation of db failed");
-    
+
     if action == "add" {
         todo.insert(item);
         match todo.save() {
             Ok(_) => println!("todo saved"),
             Err(why) => println!("An error occurred: {}", why),
+        }
+    } else if action == "complete" {
+        match todo.complete(&item) {
+            None => println!("'{}' is not present in the list", item),
+            Some(_) => match todo.save() {
+                Ok(_) => println!("todo saved"),
+                Err(why) => println!("An error occurred: {}", why),
+            },
         }
     }
 }
