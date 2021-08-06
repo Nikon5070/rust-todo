@@ -1,5 +1,14 @@
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
+
+#[macro_use]
+pub mod service;
+// use service::*;
+
+
 mod todo;
-use crate::todo::Todo;
+use self::todo::Todo;
 
 fn main() {
     let action = std::env::args().nth(1).expect("Please specify an action");

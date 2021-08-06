@@ -4,3 +4,7 @@
 # db files
 db.txt
 db.json
+
+
+# Environment
+.env
