@@ -1,8 +1,7 @@
 extern crate diesel;
 extern crate todo_cli;
 
-use todo_cli::service::models::*;
-use todo_cli::service::db::*;
+use todo_cli::service::{models::*, db::*};
 use diesel::prelude::*;
 
 fn main() {

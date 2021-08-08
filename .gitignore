@@ -1,6 +1,10 @@
 /target
 
 
+# JetBrains
+.idea
+
+
 # db files
 db.txt
 db.json
