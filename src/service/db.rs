@@ -3,7 +3,7 @@ use diesel::pg::PgConnection;
 use dotenv::dotenv;
 use std::env;
 
-use crate::service::models::{Post, NewPost};
+use crate::service::models::{Post, NewPost, NewTask};
 
 pub fn establish_connection() -> PgConnection {
     dotenv().ok();
@@ -24,6 +24,20 @@ pub fn create_post<'a>(conn: &PgConnection, title: &'a str, body: &'a str) -> Po
 
     diesel::insert_into(posts::table)
         .values(&new_post)
+        .get_result(conn)
+        .expect("Error saving new post")
+}
+
+pub fn create_task<'a>(conn: &PgConnection, title: &'a str, body: &'a str) -> Post {
+    use super::schema::tasks;
+
+    let new_task = NewTask {
+        title,
+        body,
+    };
+
+    diesel::insert_into(tasks::table)
+        .values(&new_task)
         .get_result(conn)
         .expect("Error saving new post")
 }

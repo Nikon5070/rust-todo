@@ -1,3 +1,5 @@
+use crate::service::schema::tasks;
+
 #[derive(Queryable)]
 pub struct Task {
     pub id: i32,
